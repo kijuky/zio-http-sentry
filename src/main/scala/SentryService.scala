@@ -21,10 +21,9 @@ object SentryService:
         _.headers.iterator
           .filter(_.isInstanceOf[Header.Warning])
           .map(_.asInstanceOf[Header.Warning])
-          .filter(w => w.text.startsWith("Exception") && w.code == 500)
+          .filter(_.text.startsWith("Exception"))
           .foreach: w =>
             val scn = new Scanner(HtmlEscape.unescapeHtml(w.text))
             val name = scn.useDelimiter(":").next().split(" ").last
             val text = scn.next().lines().findFirst().orElse("").trim
             Sentry.captureMessage(text, SentryLevel.ERROR)
-

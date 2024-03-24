@@ -4,7 +4,7 @@ import zio.*
 import zio.http.*
 
 object Main extends ZIOAppDefault:
-  override val bootstrap: ZLayer[ZIOAppArgs, Nothing, Unit] =
+  override val bootstrap: URLayer[Environment, Unit] =
     // sentry
     SentryService.layer
 
@@ -22,5 +22,3 @@ object Main extends ZIOAppDefault:
         // http
         Server.defaultWithPort(8080)
       )
-
-  
